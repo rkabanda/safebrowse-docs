@@ -8,13 +8,71 @@ Unlike traditional security solutions that react after a threat is encountered, 
 
 This approach enables early-stage threat prevention, reducing exposure to phishing attacks, financial fraud, and malicious payload delivery.
 
----
+## 🔐 SafeBrowse Architecture Diagram
 
-## 🧠 System Architecture
+```mermaid
+flowchart TD
 
-SafeBrowse uses a distributed architecture combining client-side detection with edge-based intelligence:
+%% -------------------------------
+%%        GLOBAL STYLING
+%% -------------------------------
+classDef process fill:#0ea5e9,stroke:#0284c7,color:white,stroke-width:1px;
+classDef decision fill:#facc15,stroke:#eab308,color:#1f2937,stroke-width:1px;
+classDef danger fill:#ef4444,stroke:#b91c1c,color:white,stroke-width:1px;
+classDef safe fill:#22c55e,stroke:#15803d,color:white,stroke-width:1px;
+classDef output fill:#475569,stroke:#1e293b,color:white,stroke-width:1px;
+classDef cache fill:#a855f7,stroke:#7e22ce,color:white,stroke-width:1px;
 
-User → Browser Extension → Cloudflare Worker → Threat Intelligence → Decision Engine → Block / Allow
+subgraph User_Flow [User Interaction]
+    A[User Clicks Link]:::process
+    B[SafeBrowse Extension]:::process
+end
+
+A --> B
+
+subgraph PreCheck [Pre-Check Stage]
+    C[Domain Normalization]:::process
+    D{Cache Check}:::decision
+    E[Return Cached Result]:::cache
+end
+
+B --> C
+C --> D
+D -->|Hit| E
+
+subgraph Filter_Stage [Domain Safety Filter]
+    F[Safe Domain Filter]:::process
+    G[Allow Access]:::safe
+end
+
+D -->|Miss| F
+F -->|Trusted Domain| G
+
+subgraph Intelligence_Checks [Threat Intelligence Checks]
+    H[DNS Intelligence Check]:::process
+    J[VirusTotal API]:::process
+    K[Threat Analysis]:::process
+end
+
+F -->|Unknown Domain| H
+H -->|Valid| J
+J --> K
+
+subgraph Outcome [Final Decision]
+    I[Block Website]:::danger
+    L[Show Warning Page]:::output
+    M[Load Website]:::output
+end
+
+H -->|Suspicious| I
+K -->|Malicious| I
+K -->|Safe| G
+
+I --> L
+G --> M
+E --> M
+```
+
 **Architecture Layers**
 
 Intercepts navigation requests
