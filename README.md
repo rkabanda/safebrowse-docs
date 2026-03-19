@@ -1,79 +1,17 @@
-# safebrowse-docs
-SafeBrowse browser security architecture and documentation
-Overview
+# 🔐 SafeBrowse — Real-Time Browser Security Architecture
 
-SafeBrowse is a lightweight cybersecurity browser extension designed to protect users from phishing, malware, and malicious websites in real time.
+## 🌍 Overview
 
-It operates using a client-edge threat detection architecture that evaluates domains before users interact with potentially harmful content.
+SafeBrowse is a lightweight, privacy-first cybersecurity browser extension designed to protect users from phishing, malware, and malicious websites in real time.
 
-🧠 Architecture
-User → Browser Extension → Cloudflare Worker → Threat Intelligence → Decision → Block/Allow
-⚙️ How It Works
+Unlike traditional security solutions that react after a threat is encountered, SafeBrowse implements a **proactive, client-edge detection model** that evaluates domain risk before user interaction occurs.
 
-A user clicks a link or enters a URL
+This approach enables early-stage threat prevention, reducing exposure to phishing attacks, financial fraud, and malicious payload delivery.
 
-SafeBrowse intercepts the navigation request
+---
 
-The domain is extracted and normalized
+## 🧠 System Architecture
 
-A request is sent to a Cloudflare Worker
+SafeBrowse uses a distributed architecture combining client-side detection with edge-based intelligence:
 
-The Worker performs:
-
-Cache lookup (fast path)
-
-DNS intelligence checks
-
-VirusTotal reputation analysis
-
-A verdict is returned:
-
-Safe → page loads
-
-Malicious → warning page shown
-
-🌐 Technologies Used
-
-Cloudflare Workers (edge computing)
-
-VirusTotal API (threat intelligence)
-
-DNS-based security checks (Quad9-style logic)
-
-JavaScript (browser extension + backend)
-
-🔒 Privacy & Data Protection
-
-SafeBrowse is designed with a privacy-first approach:
-
-No personal data is collected
-
-No browsing history is stored
-
-Only domain-level checks are performed
-
-API keys are securely handled on the backend
-
-🌍 Mission & Impact
-
-SafeBrowse was created to provide accessible cybersecurity protection to:
-
-Seniors
-
-Underserved communities
-
-Those with limited budget for Cybersecurity Solutions.
-
-Everyday internet users
-
-The goal is to reduce phishing attacks, financial fraud, and malware exposure by stopping threats at the point of entry — the browser.
-
-🚀 Future Vision
-
-SafeBrowse aims to evolve into:
-
-Enterprise browser security solutions
-
-Real-time phishing detection systems
-
-Global public-interest cybersecurity infrastructure
+User → Browser Extension → Cloudflare Worker → Threat Intelligence → Decision Engine → Block / Allow
