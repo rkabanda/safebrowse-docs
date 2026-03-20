@@ -2,48 +2,40 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>SafeBrowse Architecture</title>
-
-  <!-- Load Mermaid -->
-  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-  <script>
-    mermaid.initialize({ startOnLoad: true });
-  </script>
-
+  <title>SafeBrowse Documentation (README Clone)</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      max-width: 900px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      white-space: pre-wrap;
+      padding: 30px;
+      max-width: 1000px;
       margin: auto;
-      line-height: 1.6;
-    }
-    h1, h2, h3 {
-      color: #222;
-    }
-    hr {
-      margin: 40px 0;
+      line-height: 1.5;
+      font-size: 15px;
     }
   </style>
 </head>
 
 <body>
 
-<h1>🔐 SafeBrowse — Real-Time Browser Security Architecture</h1>
+# 🔐 SafeBrowse — Real-Time Browser Security Architecture
 
-<h2>🌍 Overview</h2>
-<p>
+## 🌍 Overview
+
 SafeBrowse is a lightweight, privacy-first cybersecurity browser extension designed to protect users from phishing, malware, and malicious websites in real time.
-Unlike traditional security solutions, SafeBrowse implements a proactive, client-edge detection model that evaluates domain risk before user interaction occurs.
-</p>
 
-<hr>
+Unlike traditional security solutions that react after a threat is encountered, SafeBrowse implements a **proactive, client-edge detection model** that evaluates domain risk before user interaction occurs.
 
-<h2>🔐 Architecture Diagram</h2>
+This approach enables early-stage threat prevention, reducing exposure to phishing attacks, financial fraud, and malicious payload delivery.
 
-<div class="mermaid">
+## 🔐 SafeBrowse Architecture Diagram
+
+```mermaid
 flowchart TD
 
+%% -------------------------------
+%%        GLOBAL STYLING
+%% -------------------------------
 classDef process fill:#0ea5e9,stroke:#0284c7,color:white,stroke-width:1px;
 classDef decision fill:#facc15,stroke:#eab308,color:#1f2937,stroke-width:1px;
 classDef danger fill:#ef4444,stroke:#b91c1c,color:white,stroke-width:1px;
@@ -55,6 +47,7 @@ subgraph User_Flow [User Interaction]
     A[User Clicks Link]:::process
     B[SafeBrowse Extension]:::process
 end
+
 A --> B
 
 subgraph PreCheck [Pre-Check Stage]
@@ -62,6 +55,7 @@ subgraph PreCheck [Pre-Check Stage]
     D{Cache Check}:::decision
     E[Return Cached Result]:::cache
 end
+
 B --> C
 C --> D
 D -->|Hit| E
@@ -70,6 +64,7 @@ subgraph Filter_Stage [Domain Safety Filter]
     F[Safe Domain Filter]:::process
     G[Allow Access]:::safe
 end
+
 D -->|Miss| F
 F -->|Trusted Domain| G
 
@@ -78,6 +73,7 @@ subgraph Intelligence_Checks [Threat Intelligence Checks]
     J[VirusTotal API]:::process
     K[Threat Analysis]:::process
 end
+
 F -->|Unknown Domain| H
 H -->|Valid| J
 J --> K
@@ -87,76 +83,11 @@ subgraph Outcome [Final Decision]
     L[Show Warning Page]:::output
     M[Load Website]:::output
 end
+
 H -->|Suspicious| I
 K -->|Malicious| I
 K -->|Safe| G
+
 I --> L
 G --> M
 E --> M
-</div>
-
-<hr>
-
-<h2>Architecture Layers</h2>
-
-<h3>Client Layer (Browser Extension)</h3>
-<ul>
-  <li>Intercepts navigation requests</li>
-  <li>Extracts and normalizes domains</li>
-  <li>Displays user warnings</li>
-</ul>
-
-<h3>Edge Layer (Cloudflare Workers)</h3>
-<ul>
-  <li>Executes globally at low latency</li>
-  <li>Handles evaluation logic</li>
-  <li>Protects backend intelligence</li>
-</ul>
-
-<h3>Intelligence Layer</h3>
-<ul>
-  <li>VirusTotal reputation checks</li>
-  <li>DNS-based intelligence</li>
-  <li>Threat caching layer</li>
-</ul>
-
-<h3>Decision Layer</h3>
-<ul>
-  <li>Applies risk scoring</li>
-  <li>Determines allow/block behavior</li>
-</ul>
-
-<hr>
-
-<h2>⚙️ Detailed Execution Flow</h2>
-
-<ol>
-  <li>A user clicks a link or enters a URL</li>
-  <li>SafeBrowse intercepts before loading</li>
-  <li>Domain normalization occurs</li>
-  <li>Edge worker performs intelligence checks</li>
-  <li>A verdict is returned: SAFE or BLOCK</li>
-</ol>
-
-<hr>
-
-<h2>🛡️ Security Model</h2>
-<p>SafeBrowse follows a Zero Trust model:</p>
-<ul>
-  <li>No domain is trusted by default</li>
-  <li>All requests undergo live security checks</li>
-  <li>Multi-layer analysis ensures threat accuracy</li>
-</ul>
-
-<hr>
-
-<h2>👤 Author</h2>
-
-<p>
-<strong>Richard Kabanda</strong><br>
-Fellow | Cybersecurity, Protecting Systems, Data & Digital Infrastructure
-</p>
-
-</body>
-</html>
-``
