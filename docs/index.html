@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>SafeBrowse Architecture</title>
 
-  <!-- Load Mermaid properly -->
+  <!-- Load Mermaid (correct script tag) -->
   <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
   <script>
     mermaid.initialize({ startOnLoad: true });
@@ -28,7 +28,6 @@
 
 <h1>🔐 SafeBrowse — Architecture Diagram</h1>
 
-<!-- IMPORTANT: Mermaid wrapper -->
 <div class="mermaid">
 flowchart TD
 
@@ -40,16 +39,16 @@ classDef output fill:#475569,stroke:#1e293b,color:white,stroke-width:1px;
 classDef cache fill:#a855f7,stroke:#7e22ce,color:white,stroke-width:1px;
 
 subgraph User_Flow [User Interaction]
-  A[User Clicks Link]:::process
-  B[SafeBrowse Extension]:::process
+    A[User Clicks Link]:::process
+    B[SafeBrowse Extension]:::process
 end
 
 A --> B
 
 subgraph PreCheck [Pre-Check Stage]
-  C[Domain Normalization]:::process
-  D{Cache Check}:::decision
-  E[Return Cached Result]:::cache
+    C[Domain Normalization]:::process
+    D{Cache Check}:::decision
+    E[Return Cached Result]:::cache
 end
 
 B --> C
@@ -57,17 +56,17 @@ C --> D
 D -->|Hit| E
 
 subgraph Filter_Stage [Domain Safety Filter]
-  F[Safe Domain Filter]:::process
-  G[Allow Access]:::safe
+    F[Safe Domain Filter]:::process
+    G[Allow Access]:::safe
 end
 
 D -->|Miss| F
 F -->|Trusted Domain| G
 
 subgraph Intelligence_Checks [Threat Intelligence Checks]
-  H[DNS Intelligence Check]:::process
-  J[VirusTotal API]:::process
-  K[Threat Analysis]:::process
+    H[DNS Intelligence Check]:::process
+    J[VirusTotal API]:::process
+    K[Threat Analysis]:::process
 end
 
 F -->|Unknown Domain| H
@@ -75,9 +74,9 @@ H -->|Valid| J
 J --> K
 
 subgraph Outcome [Final Decision]
-  I[Block Website]:::danger
-  L[Show Warning Page]:::output
-  M[Load Website]:::output
+    I[Block Website]:::danger
+    L[Show Warning Page]:::output
+    M[Load Website]:::output
 end
 
 H -->|Suspicious| I
