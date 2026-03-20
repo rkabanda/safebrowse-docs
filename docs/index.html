@@ -2,35 +2,57 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>SafeBrowse Architecture</title>
-
-  <!-- Load Mermaid (correct script tag) -->
-  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-  <script>
-    mermaid.initialize({ startOnLoad: true });
-  </script>
-
+  <title>SafeBrowse — Real-Time Browser Security Architecture</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
+      font-family: Arial, Helvetica, sans-serif;
+      padding: 40px;
       max-width: 900px;
       margin: auto;
       line-height: 1.6;
+      font-size: 16px;
     }
-    h1, h2 {
-      color: #222;
+    pre {
+      background: #f6f8fa;
+      padding: 16px;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-family: "SFMono-Regular", Consolas, monospace;
+      border: 1px solid #d0d7de;
+    }
+    h1, h2, h3 {
+      margin-top: 32px;
+      color: #24292f;
     }
   </style>
 </head>
 
 <body>
 
-<h1>🔐 SafeBrowse — Architecture Diagram</h1>
+<h1>🔐 SafeBrowse — Real-Time Browser Security Architecture</h1>
 
-<div class="mermaid">
+<h2>🌍 Overview</h2>
+
+<p>
+SafeBrowse is a lightweight, privacy-first cybersecurity browser extension designed to protect users from phishing, malware, and malicious websites in real time.
+</p>
+
+<p>
+Unlike traditional security solutions that react after a threat is encountered, SafeBrowse implements a <strong>proactive, client-edge detection model</strong> that evaluates domain risk before user interaction occurs.
+</p>
+
+<p>
+This approach enables early-stage threat prevention, reducing exposure to phishing attacks, financial fraud, and malicious payload delivery.
+</p>
+
+<h2>🔐 SafeBrowse Architecture Diagram</h2>
+
+<pre><code>```mermaid
 flowchart TD
 
+%% -------------------------------
+%%        GLOBAL STYLING
+%% -------------------------------
 classDef process fill:#0ea5e9,stroke:#0284c7,color:white,stroke-width:1px;
 classDef decision fill:#facc15,stroke:#eab308,color:#1f2937,stroke-width:1px;
 classDef danger fill:#ef4444,stroke:#b91c1c,color:white,stroke-width:1px;
@@ -86,7 +108,180 @@ K -->|Safe| G
 I --> L
 G --> M
 E --> M
-</div>
+```</code></pre>
+
+<h2>Architecture Layers</h2>
+
+<h3>Client Layer (Browser Extension)</h3>
+<ul>
+  <li>Intercepts navigation requests</li>
+  <li>Extracts and normalizes domains</li>
+  <li>Displays user warnings</li>
+</ul>
+
+<h3>Edge Layer (Cloudflare Workers)</h3>
+<ul>
+  <li>Executes globally at low latency</li>
+  <li>Handles domain evaluation logic</li>
+  <li>Protects API keys and backend logic</li>
+</ul>
+
+<h3>Intelligence Layer</h3>
+<ul>
+  <li>VirusTotal (malware/phishing reputation)</li>
+  <li>DNS-based intelligence (Quad9-inspired filtering)</li>
+  <li>Cached threat results</li>
+</ul>
+
+<h3>Decision Layer</h3>
+<ul>
+  <li>Applies risk scoring</li>
+  <li>Determines whether to allow or block access</li>
+</ul>
+
+<h2>⚙️ Detailed Execution Flow</h2>
+
+<ol>
+  <li>A user clicks a link or enters a URL</li>
+  <li>SafeBrowse intercepts the navigation request before page load</li>
+  <li>The domain is extracted and normalized (e.g., removing www)</li>
+  <li>A request is sent to a Cloudflare Worker (edge node)</li>
+</ol>
+
+<p><strong>The Worker performs:</strong></p>
+<ul>
+  <li>Cache lookup (fast response path)</li>
+  <li>Safe-domain filtering (trusted domains bypass)</li>
+  <li>DNS intelligence checks (domain validity & heuristics)</li>
+  <li>VirusTotal analysis (only when necessary)</li>
+</ul>
+
+<p><strong>A verdict is generated:</strong></p>
+<ul>
+  <li>✅ <strong>Safe → Website loads normally</strong></li>
+  <li>🚫 <strong>Malicious → Warning page is displayed</strong></li>
+</ul>
+
+<h2>🔍 Threat Detection Pipeline</h2>
+
+<pre><code>User Request
+↓
+Domain Normalization
+↓
+Cache Lookup
+↓
+DNS Intelligence Layer
+↓
+VirusTotal Analysis (last resort)
+↓
+Risk Evaluation
+↓
+Block or Allow
+</code></pre>
+
+<h2>🛡️ Security Model</h2>
+
+<p>SafeBrowse follows a Zero Trust security model:</p>
+
+<ul>
+  <li>No domain is trusted by default</li>
+  <li>Every request is evaluated in real time</li>
+  <li>Decisions are based on live threat intelligence</li>
+</ul>
+
+<h3>Key Protections</h3>
+<ul>
+  <li>Phishing detection</li>
+  <li>Malware domain blocking</li>
+  <li>Suspicious domain identification</li>
+  <li>Prevention of user interaction with malicious content</li>
+</ul>
+
+<h2>🌐 Technologies Used</h2>
+<ul>
+  <li>Cloudflare Workers (Edge Computing)</li>
+  <li>VirusTotal API</li>
+  <li>DNS-over-HTTPS (Cloudflare DNS)</li>
+  <li>JavaScript (Extension + Backend)</li>
+  <li>Secure API architecture</li>
+</ul>
+
+<h2>⚡ Performance & Scalability</h2>
+
+<ul>
+  <li>Edge-based execution (global low latency)</li>
+  <li>Intelligent caching (reduces API usage)</li>
+  <li>Lightweight extension (&lt;20KB)</li>
+  <li>Serverless scaling (handles large user base)</li>
+</ul>
+
+<h2>🔒 Privacy & Data Protection</h2>
+
+<ul>
+  <li>No personal data collection</li>
+  <li>No browsing history tracking</li>
+  <li>No user profiling</li>
+  <li>Only domain-level analysis is performed</li>
+</ul>
+
+<p>
+All sensitive operations (e.g., API keys) are securely handled within the backend environment.
+</p>
+
+<h2>🌍 Global Impact & Public Interest</h2>
+
+<p>
+SafeBrowse was developed to address a critical cybersecurity gap: While enterprises deploy advanced protection systems, individual users—especially seniors and underserved communities—remain highly vulnerable to phishing and online fraud.
+</p>
+
+<p>
+This solution was created as a technology-driven form of giving back, providing accessible cybersecurity protection to populations that may not afford enterprise security tools.
+</p>
+
+<h3>Impact Areas</h3>
+<ul>
+  <li>Reduction in phishing-related financial fraud</li>
+  <li>Protection of vulnerable internet users</li>
+  <li>Increased cybersecurity awareness</li>
+  <li>Strengthening user-level digital resilience globally</li>
+</ul>
+
+<h2>🚀 Innovation Contribution</h2>
+
+<p>SafeBrowse introduces:</p>
+
+<ul>
+  <li>A client-edge hybrid security model</li>
+  <li>Real-time domain evaluation before interaction</li>
+  <li>Efficient use of multi-layer threat intelligence</li>
+  <li>Scalable protection without heavy client-side processing</li>
+</ul>
+
+<p>
+This represents a shift from reactive to preventive browser security architecture.
+</p>
+
+<h2>🔮 Future Vision</h2>
+
+<ul>
+  <li>AI-driven phishing detection</li>
+  <li>Enterprise browser security solutions</li>
+  <li>Advanced behavioral threat analysis</li>
+  <li>Global cybersecurity awareness tools</li>
+</ul>
+
+<h2>📌 Summary</h2>
+
+<p>
+SafeBrowse delivers a scalable, privacy-preserving, and globally accessible cybersecurity solution that protects users at the earliest point of risk — the web browser. It represents a practical step toward strengthening global digital safety and reducing exposure to modern cyber threats.
+</p>
+
+<h2>👤 Author</h2>
+
+<p><strong>
+Richard Kabanda<br>
+Fellow | Cybersecurity, Protecting Systems, Data & Digital Infrastructure
+</strong></p>
 
 </body>
 </html>
