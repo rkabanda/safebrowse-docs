@@ -42,7 +42,6 @@ subgraph User_Flow [User Interaction]
     A[User Clicks Link]:::process
     B[SafeBrowse Extension]:::process
 end
-
 A --> B
 
 subgraph PreCheck [Pre-Check Stage]
@@ -50,7 +49,6 @@ subgraph PreCheck [Pre-Check Stage]
     D{Cache Check}:::decision
     E[Return Cached Result]:::cache
 end
-
 B --> C
 C --> D
 D -->|Hit| E
@@ -59,7 +57,6 @@ subgraph Filter_Stage [Domain Safety Filter]
     F[Safe Domain Filter]:::process
     G[Allow Access]:::safe
 end
-
 D -->|Miss| F
 F -->|Trusted Domain| G
 
@@ -68,7 +65,6 @@ subgraph Intelligence_Checks [Threat Intelligence Checks]
     J[VirusTotal API]:::process
     K[Threat Analysis]:::process
 end
-
 F -->|Unknown Domain| H
 H -->|Valid| J
 J --> K
@@ -78,11 +74,9 @@ subgraph Outcome [Final Decision]
     L[Show Warning Page]:::output
     M[Load Website]:::output
 end
-
 H -->|Suspicious| I
 K -->|Malicious| I
 K -->|Safe| G
-
 I --> L
 G --> M
 E --> M
