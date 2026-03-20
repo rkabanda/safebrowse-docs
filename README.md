@@ -75,61 +75,63 @@ E --> M
 
 **Architecture Layers**
 
-Intercepts navigation requests
+**Client Layer (Browser Extension)**
 
-Extracts and normalizes domains
+- Intercepts navigation requests
 
-Displays user warnings
+- Extracts and normalizes domains
 
-Edge Layer (Cloudflare Workers)
+- Displays user warnings
 
-Executes globally at low latency
+**Edge Layer (Cloudflare Workers)**
 
-Handles domain evaluation logic
+- Executes globally at low latency
 
-Protects API keys and backend logic
+- Handles domain evaluation logic
 
-Intelligence Layer
+- Protects API keys and backend logic
 
-VirusTotal (malware/phishing reputation)
+**Intelligence Layer**
 
-DNS-based intelligence (Quad9-inspired filtering)
+- VirusTotal (malware/phishing reputation)
 
-Cached threat results
+- DNS-based intelligence (Quad9-inspired filtering)
 
-Decision Layer
+- Cached threat results
 
-Applies risk scoring
+**Decision Layer**
 
-Determines whether to allow or block access
+- Applies risk scoring
+
+- Determines whether to allow or block access
 
 ⚙️ **Detailed Execution Flow**
 
-A user clicks a link or enters a URL
+1. A user clicks a link or enters a URL
 
-SafeBrowse intercepts the navigation request before page load
+2. SafeBrowse intercepts the navigation request before page load
 
-The domain is extracted and normalized (e.g., removing www)
+3. The domain is extracted and normalized (e.g., removing www)
 
-A request is sent to a Cloudflare Worker (edge node)
+4. A request is sent to a Cloudflare Worker (edge node)
 
 The Worker performs:
 
-Cache lookup (fast response path)
+- Cache lookup (fast response path)
 
-Safe-domain filtering (trusted domains bypass)
+- Safe-domain filtering (trusted domains bypass)
 
-DNS intelligence checks (domain validity & heuristics)
+- DNS intelligence checks (domain validity & heuristics)
 
-VirusTotal analysis (only when necessary)
+- VirusTotal analysis (only when necessary)
 
-A verdict is generated:
+5. A verdict is generated:
 
 ✅ **Safe → Website loads normally**
 
 🚫 Malicious → Warning page is displayed
 
-🔍 Threat Detection Pipeline
+🔍 **Threat Detection Pipeline**
 User Request
    ↓
 Domain Normalization
@@ -143,59 +145,60 @@ VirusTotal Analysis (last resort)
 Risk Evaluation
    ↓
 Block or Allow
+
 🛡️ **Security Model**
 
 SafeBrowse follows a Zero Trust security model:
 
-No domain is trusted by default
+- No domain is trusted by default
 
-Every request is evaluated in real time
+- Every request is evaluated in real time
 
-Decisions are based on live threat intelligence
+- Decisions are based on live threat intelligence
 
-Key Protections
+**Key Protections**
 
-Phishing detection
+- Phishing detection
 
-Malware domain blocking
+- Malware domain blocking
 
-Suspicious domain identification
+- Suspicious domain identification
 
-Prevention of user interaction with malicious content
+- Prevention of user interaction with malicious content
 
 🌐 **Technologies Used**
 
-Cloudflare Workers (Edge Computing)
+- Cloudflare Workers (Edge Computing)
 
-VirusTotal API (Threat Intelligence)
+- VirusTotal API (Threat Intelligence)
 
-DNS-over-HTTPS (Cloudflare DNS)
+- DNS-over-HTTPS (Cloudflare DNS)
 
-JavaScript (Extension + Backend)
+- JavaScript (Extension + Backend)
 
-Secure API architecture
+- Secure API architecture
 
-⚡** Performance & Scalability**
+⚡**Performance & Scalability**
 
-Edge-based execution (global low latency)
+- Edge-based execution (global low latency)
 
-Intelligent caching (reduces API usage)
+- Intelligent caching (reduces API usage)
 
-Lightweight extension (<20KB)
+- Lightweight extension (<20KB)
 
-Serverless scaling (handles large user base)
+- Serverless scaling (handles large user base)
 
-🔒** Privacy & Data Protection**
+🔒**Privacy & Data Protection**
 
 SafeBrowse is designed with a strict privacy-first principle:
 
-No personal data collection
+- No personal data collection
 
-No browsing history tracking
+- No browsing history tracking
 
-No user profiling
+- No user profiling
 
-Only domain-level analysis is performed
+- Only domain-level analysis is performed
 
 All sensitive operations (e.g., API keys) are securely handled within the backend environment.
 
@@ -207,43 +210,49 @@ While enterprises deploy advanced protection systems, individual users—especia
 
 This solution was created as a technology-driven form of giving back, providing accessible cybersecurity protection to populations that may not afford enterprise security tools.
 
-Impact Areas
+**Impact Areas**
 
-Reduction in phishing-related financial fraud
+- Reduction in phishing-related financial fraud
 
-Protection of vulnerable internet users
+- Protection of vulnerable internet users
 
-Increased cybersecurity awareness
+- Increased cybersecurity awareness
 
-Strengthening user-level digital resilience globally
+- Strengthening user-level digital resilience globally
 
 **🚀 Innovation Contribution**
 
 SafeBrowse introduces:
 
-A client-edge hybrid security model
+- A client-edge hybrid security model
 
-Real-time domain evaluation before interaction
+- Real-time domain evaluation before interaction
 
-Efficient use of multi-layer threat intelligence
+- Efficient use of multi-layer threat intelligence
 
-Scalable protection without heavy client-side processing
+- Scalable protection without heavy client-side processing
 
 This represents a shift from reactive to preventive browser security architecture.
 
-🔮** Future Vision**
+🔮**Future Vision**
 
 SafeBrowse is evolving toward:
 
-AI-driven phishing detection
+- AI-driven phishing detection
 
-Enterprise browser security solutions
+- Enterprise browser security solutions
 
-Advanced behavioral threat analysis
+- Advanced behavioral threat analysis
 
-Global cybersecurity awareness tools
+- Global cybersecurity awareness tools
 
-👤** Author***
+**📌 Summary**
 
-Richard Kabanda
-Fellow | Cybersecurity, Protecting Systems, Data & Digital Infrastructure
+SafeBrowse delivers a scalable, privacy-preserving, and globally accessible cybersecurity solution that protects users at the earliest point of risk — the web browser.
+
+It represents a practical step toward strengthening global digital safety and reducing exposure to modern cyber threats.
+
+👤**Author**
+
+**Richard Kabanda
+Fellow | Cybersecurity, Protecting Systems, Data & Digital Infrastructure**
