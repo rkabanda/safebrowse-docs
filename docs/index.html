@@ -2,40 +2,35 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>SafeBrowse Documentation (README Clone)</title>
+  <title>SafeBrowse Architecture</title>
+
+  <!-- Load Mermaid (correct script tag) -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+
   <style>
     body {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      white-space: pre-wrap;
-      padding: 30px;
-      max-width: 1000px;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 900px;
       margin: auto;
-      line-height: 1.5;
-      font-size: 15px;
+      line-height: 1.6;
+    }
+    h1, h2 {
+      color: #222;
     }
   </style>
 </head>
 
 <body>
 
-# 🔐 SafeBrowse — Real-Time Browser Security Architecture
+<h1>🔐 SafeBrowse — Architecture Diagram</h1>
 
-## 🌍 Overview
-
-SafeBrowse is a lightweight, privacy-first cybersecurity browser extension designed to protect users from phishing, malware, and malicious websites in real time.
-
-Unlike traditional security solutions that react after a threat is encountered, SafeBrowse implements a **proactive, client-edge detection model** that evaluates domain risk before user interaction occurs.
-
-This approach enables early-stage threat prevention, reducing exposure to phishing attacks, financial fraud, and malicious payload delivery.
-
-## 🔐 SafeBrowse Architecture Diagram
-
-```mermaid
+<div class="mermaid">
 flowchart TD
 
-%% -------------------------------
-%%        GLOBAL STYLING
-%% -------------------------------
 classDef process fill:#0ea5e9,stroke:#0284c7,color:white,stroke-width:1px;
 classDef decision fill:#facc15,stroke:#eab308,color:#1f2937,stroke-width:1px;
 classDef danger fill:#ef4444,stroke:#b91c1c,color:white,stroke-width:1px;
@@ -91,3 +86,7 @@ K -->|Safe| G
 I --> L
 G --> M
 E --> M
+</div>
+
+</body>
+</html>
